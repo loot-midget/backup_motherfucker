@@ -16,7 +16,6 @@ This program will make copies of files only. It will not restore files back to o
 - monitor specific directory for file addition/changes (non-recursively!) and copy changed files to back up folder in directory which name equal to file basename
 - add current time stamp to every copied file, e.g. file `data.bin` will become `%BACKUIP_FOLDER%/data.bin/data.bin.2023-08-01--22-00-05` after copy complete
 - cleanup periodically to keep only files for N last days with change events. If you specified to keep files for 2 days and monitored file was changed on Monday/Wednesday/Saturday then there will be left only copies made on Wednesday/Saturday
-- on file changing 
 - files moving/deletion is not monitored
 
 ## How to install
@@ -25,7 +24,7 @@ This program will make copies of files only. It will not restore files back to o
 
 - go to https://www.python.org/downloads/
 - download and install bundle for your system
-- check version by running command `python3 -V`
+- check version by running command `python -V`
 
 ### 2. download source code
 
@@ -39,13 +38,13 @@ This program will make copies of files only. It will not restore files back to o
 - go to project folder, e.g. `backup_motherfucker`
 - run command
 ```shell
-python3 -m pip install -r requirements.txt
+python -m pip install -r requirements.txt --user
 ```
 
 ### 4. run backup
 This short sample for Borderlands 3:  
 ```shell
-python3 bmf.py --game=BL3 
+python bmf.py --game=BL3 
 ```
 backup directory will be auto-discovered and backup copies will be put in `backup_files` inside program directory.
 
