@@ -20,11 +20,14 @@ This program will make copies of files only. It will not restore files back to o
 
 ## How to install
 
-### 1. install Python 3.8 or above
+### 1. install Python 3.8 or higher
 
 - go to https://www.python.org/downloads/
 - download and install bundle for your system
-- check version by running command `python -V`
+- check version by running command 
+```
+python -V
+```
 
 ### 2. download source code
 
@@ -71,12 +74,35 @@ Path to back up folder where all copies will be stored.
 folder `backup_files` inside program folder.
 
 **Examples**
+- Windows: `--backup-folder=C:\bl3_backup`
+- Other platforms: `--backup-folder=/users/JohnDoe/bl3_backup`
 
-Windows:
+### `--min-backup-interval-sec`
+Minimum time between making backup copies of same file.
 
-`--backup-folder=C:\bl3_backup`
+- minimum value: 1
+- default value: 10
 
-Other:
+### `--backup-depth-days`
 
-`--backup-folder=/users/JohnDoe/bl3_backup`
+History depth in days.
 
+- minimum value: 2 (see explanation below)
+- default value: 7
+
+#### Cleanup algorithm
+Cleanup runs separately for each file on new backup event.
+
+Steps:
+- extract day of backup file, e.g. `2023-07-24` from `Save0001.sav.2023-07-24--23-38-01`
+- group backup copies by day
+- keep the newest files for {`--backup-depth-days`} days and remove older copies
+
+That's why minimum required value is 2.
+
+### `--cleanup-period-hours`
+Period between cleanup older backup copies in hours.
+
+- minimum: 1
+- maximum: 24
+- default: 8

@@ -9,16 +9,10 @@ from typing import Dict, Final, Optional, List
 
 from watchdog.events import FileSystemEventHandler, FileSystemEvent
 
-from app.utils import remove_file, BasenameFilter
+from app.config import BackupOptions, AppConfig
+from app.utils import remove_file
 
 logger = logging.getLogger(__name__)
-
-
-@dataclasses.dataclass(frozen=True)
-class BackupOptions:
-    min_update_interval_sec: int
-    backup_depth_days: int
-    cleanup_period_sec: int
 
 
 @dataclasses.dataclass(frozen=True)
@@ -143,18 +137,11 @@ def backup_one_file(*, job: FileInfo, backup_options: BackupOptions) -> FileInfo
 
 
 class BackupManager:
-    def __init__(
-        self,
-        *,
-        folder_to_monitor: str,
-        backup_folder: str,
-        backup_options: BackupOptions,
-        basename_filter: BasenameFilter
-    ) -> None:
-        self.folder_to_monitor: Final = folder_to_monitor
-        self.backup_folder: Final = backup_folder
-        self.backup_options: Final = backup_options
-        self.basename_filter: Final = basename_filter
+    def __init__(self, config: AppConfig) -> None:
+        self.folder_to_monitor: Final = config.folder_to_monitor
+        self.backup_folder: Final = config.backup_folder
+        self.backup_options: Final = config.backup_options
+        self.basename_filter: Final = config.basename_filter
         self.file_records: Final[Dict[str, FileInfo]] = {}
 
     def backup_all_files(self) -> None:
