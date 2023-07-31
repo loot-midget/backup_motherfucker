@@ -22,6 +22,7 @@ class AppConfig:
     backup_folder: str
     basename_filter: BasenameFilter
     backup_options: BackupOptions
+    copy_all_files_at_start: bool
 
 
 class IntRange:
@@ -80,6 +81,12 @@ def read_config(args: List[str]) -> AppConfig:
         default=8,
         help='period between cleanup older backup copies. Cleanup runs separately for each file on new backup event.',
     )
+    parser.add_argument(
+        '--skip-copy-all-files-at-start',
+        action='store_true',
+        default=False,
+        help='Disable copying all files at program startup',
+    )
     params = parser.parse_args(args)
 
     basename_filter: BasenameFilter
@@ -118,9 +125,12 @@ def read_config(args: List[str]) -> AppConfig:
         cleanup_period_sec=int(datetime.timedelta(hours=params.cleanup_period_hours).total_seconds()),
     )
 
+    copy_all_files_at_start = not params.skip_copy_all_files_at_start
+
     return AppConfig(
         folder_to_monitor=os.path.abspath(folder_to_monitor),
         backup_folder=backup_folder,
         basename_filter=basename_filter,
         backup_options=backup_options,
+        copy_all_files_at_start=copy_all_files_at_start,
     )

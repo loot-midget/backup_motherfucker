@@ -18,7 +18,8 @@ def monitor_and_backup_files(args: List[str]) -> None:
     logger.info('file copies will be put under %r', config.backup_folder)
 
     backup_manager = BackupManager(config)
-    backup_manager.backup_all_files()
+    if config.copy_all_files_at_start:
+        backup_manager.backup_all_files()
 
     event_handler = FileBackupHandler(backup_manager)
     observer = Observer()
