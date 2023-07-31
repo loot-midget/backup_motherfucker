@@ -84,7 +84,6 @@ def read_config(args: List[str]) -> AppConfig:
     parser.add_argument(
         '--skip-copy-all-files-at-start',
         action='store_true',
-        default=False,
         help='Disable copying all files at program startup',
     )
     params = parser.parse_args(args)
