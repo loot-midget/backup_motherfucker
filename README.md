@@ -106,3 +106,8 @@ Period between cleanup older backup copies in hours.
 - minimum: 1
 - maximum: 24
 - default: 8
+
+### `--skip-copy-all-files-at-start`
+Disable copying all files at program startup.
+
+Default value: False (all files are copied on program startup)
