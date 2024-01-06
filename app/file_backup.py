@@ -7,7 +7,7 @@ import shutil
 import time
 from typing import Dict, Final, Optional, List
 
-from watchdog.events import FileSystemEventHandler, FileSystemEvent
+from watchdog.events import FileSystemEventHandler, FileSystemEvent, FileDeletedEvent, EVENT_TYPE_DELETED
 
 from app.config import BackupOptions, AppConfig
 from app.utils import remove_file
@@ -179,6 +179,9 @@ class FileBackupHandler(FileSystemEventHandler):
         super().on_created(event)
 
         if event.is_directory:
+            return
+
+        if event.event_type == EVENT_TYPE_DELETED:
             return
 
         basename = os.path.basename(event.src_path)
